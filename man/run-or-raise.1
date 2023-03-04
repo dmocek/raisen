@@ -30,15 +30,15 @@ various ways:
 .nf
 .RS
 # Launch or focus emacs
-run-or-raise 'class = "Emacs"' emacs
+raisen 'class = "Emacs"' emacs
 
 # You can also use regular expressions for matching
 # Match windows with title ending with the string "Firefox"
-run-or-raise 'name ~ ".*Firefox$"' firefox
+raisen 'name ~ ".*Firefox$"' firefox
 
 # You can combine multiple comparisons with logical operators.
 # Match windows with the role browser that do not have the class Chromium.
-run-or-raise 'role = "browser" && ! class = "Chromium"' firefox
+raisen 'role = "browser" && ! class = "Chromium"' firefox
 .RE
 .fi
 .SH AUTHORS

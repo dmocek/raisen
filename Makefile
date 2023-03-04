@@ -2,19 +2,19 @@ DESTDIR =
 PREFIX = /usr/local
 CARGO_FLAGS =
 
-.PHONY: all target/release/run-or-raise install help
+.PHONY: all target/release/raisen install help
 
-all: target/release/run-or-raise
+all: target/release/raisen
 
-target/release/run-or-raise:
+target/release/raisen:
 	cargo build --release $(CARGO_FLAGS)
 
-install: target/release/run-or-raise
-	install -s -D -m755 -- target/release/run-or-raise "$(DESTDIR)$(PREFIX)/bin/run-or-raise"
-	install -D -m644 -- man/run-or-raise.1 "$(DESTDIR)$(PREFIX)/share/man/man1/run-or-raise.1"
+install: target/release/raisen
+	install -s -D -m755 -- target/release/raisen "$(DESTDIR)$(PREFIX)/bin/raisen"
+	install -D -m644 -- man/raisen.1 "$(DESTDIR)$(PREFIX)/share/man/man1/raisen.1"
 
 help:
 	@echo "Available make targets:"
-	@echo "  all      - Build run-or-raise (default)"
-	@echo "  install  - Build and install run-or-raise and manual pages"
+	@echo "  all      - Build raisen (default)"
+	@echo "  install  - Build and install raisen and manual pages"
 	@echo "  help     - Print this help"
