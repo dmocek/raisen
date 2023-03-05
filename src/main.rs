@@ -1,13 +1,32 @@
+/*
+ * This file is part of raisen.
+ *
+ * Copyright (C) 2023 Darryl Mocek
+ * Portions Copyright (C) soft.github.io/run-or-raise/
+ *
+ * raisen is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * raisen is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with raisen.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 mod conditions;
 mod parsing;
 mod windows;
 
 use anyhow::{bail, Context, Error, Result};
 use std::{env, thread, time};
-use std::io::{ErrorKind, Read, Write};
+use std::io::{Read, Write};
 use std::os::unix::net::{UnixListener, UnixStream};
 use std::os::unix::process::CommandExt;
-use std::path::Path;
 use std::process;
 use std::process::Command;
 use xcb::Connection;
@@ -62,21 +81,19 @@ fn main() -> anyhow::Result<()> {
         write_request(&mut unix_stream, args)?;
         return Ok(());
     }
-
-    Ok(())
 }
 
 fn print_type_of<T>(_: &T) {
     println!("{}", std::any::type_name::<T>())
 }
 
-fn run_raise_cycle(argsStr: String) -> Result<()> {
+fn run_raise_cycle(args_str: String) -> Result<()> {
     let args: Vec<_> = env::args().collect();
     print_type_of(&args);
     // let app = &args[0];
 
-    println!("argsStr: {}", argsStr);
-    let mut exec_args: Vec<_> = argsStr.split(",").map(str::to_string).collect();
+    println!("argsStr: {}", args_str);
+    let exec_args: Vec<_> = args_str.split(",").map(str::to_string).collect();
     print_type_of(&exec_args);
     // let exec_args: Vec<_> = gs().collect();
     println!("exec_args: {:?}", exec_args);
@@ -123,17 +140,17 @@ fn run_daemon() -> anyhow::Result<()> {
 }
 
 fn write_request(unix_stream: &mut UnixStream, args: Vec<String>) -> anyhow::Result<()> {
-    let argsStr = args
+    let args_str = args
         .iter()
         .map(|args| args.to_string())
         .collect::<Vec<_>>()
         .join(",");
 
-    println!("argsStr: {}", argsStr);
+    println!("argsStr: {}", args_str);
 
     unix_stream
         // .write(args.into_iter().collect()::<String>().as_bytes())
-        .write(argsStr.as_bytes())
+        .write(args_str.as_bytes())
         .context("Failed at writing onto the unix stream")?;
 
     Ok(())

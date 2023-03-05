@@ -1,3 +1,9 @@
+/*
+ * This file is part of raisen.
+ *
+ * Portions Copyright (C) soft.github.io/run-or-raise/
+ */
+
 use regex::Regex;
 use std::str::FromStr;
 

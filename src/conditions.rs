@@ -1,3 +1,9 @@
+/*
+ * This file is part of raisen.
+ *
+ * Portions Copyright (C) soft.github.io/run-or-raise/
+ */
+
 use anyhow::{anyhow, Result};
 use regex::Regex;
 use xcb::{

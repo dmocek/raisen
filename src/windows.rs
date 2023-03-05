@@ -1,3 +1,9 @@
+/*
+ * This file is part of raisen.
+ *
+ * Portions Copyright (C) soft.github.io/run-or-raise/
+ */
+
 use crate::conditions::Condition;
 use anyhow::{anyhow, Error, Result};
 use encoding::all::ISO_8859_1;
