@@ -24,6 +24,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "bef38d45163c2f1dde094a7dfd33ccf595c92905c8f8f4fdc18d06fb1037718a"
 
 [[package]]
+name = "daemonize"
+version = "0.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ab8bfdaacb3c887a54d41bdf48d3af8873b3f5566469f8ba21b92057509f116e"
+dependencies = [
+ "libc",
+]
+
+[[package]]
 name = "encoding"
 version = "0.2.33"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -131,6 +140,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "raisen"
+version = "0.3.4"
+dependencies = [
+ "anyhow",
+ "daemonize",
+ "encoding",
+ "lazy_static",
+ "nom",
+ "regex",
+ "xcb",
+]
+
+[[package]]
 name = "regex"
 version = "1.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -146,18 +168,6 @@ name = "regex-syntax"
 version = "0.6.28"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "456c603be3e8d448b072f410900c09faf164fbce2d480456f50eea6e25f9c848"
-
-[[package]]
-name = "raisen"
-version = "0.3.4"
-dependencies = [
- "anyhow",
- "encoding",
- "lazy_static",
- "nom",
- "regex",
- "xcb",
-]
 
 [[package]]
 name = "xcb"
