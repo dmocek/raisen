@@ -141,7 +141,7 @@ dependencies = [
 
 [[package]]
 name = "raisen"
-version = "0.3.4"
+version = "0.0.1"
 dependencies = [
  "anyhow",
  "daemonize",
