@@ -22,9 +22,9 @@ mod conditions;
 mod parsing;
 mod windows;
 
-use anyhow::{bail, Context, Error, Result};
+use anyhow::{bail, Context, Result};
 use std::{env, thread, time};
-use std::io::{Read, Write};
+use std::io::{ErrorKind, Read, Write};
 use std::os::unix::net::{UnixListener, UnixStream};
 use std::os::unix::process::CommandExt;
 use std::process;
@@ -34,9 +34,18 @@ use xcb::Connection;
 pub static RAISEN_SOCKET: &'static str = "/tmp/raisen.sock";
 pub static PARAM_DAEMON: &'static str = "--daemon";
 
-fn exec_program(prog: &str, args: &[String]) -> Error {
-    let error = Command::new(prog).args(args).exec();
-    Error::new(error).context("Executing program failed")
+// Spawns a child program and keeps running.
+fn exec_program(prog: &str, args: &[String]) {
+    let child_res = Command::new(prog).args(args).spawn();
+
+    match child_res {
+        Ok(child) => {},
+        Err(error) => match error.kind() {
+            other_error => {
+                println!("Problem exec'ing program: {:?}", other_error);
+            }
+        },
+    };
 }
 
 fn handle_stream(mut unix_stream: UnixStream) -> anyhow::Result<()> {
@@ -112,8 +121,9 @@ fn run_raise_cycle(args_str: String) -> Result<()> {
 
     match windows::find_matching_window(&conn, &screen, &cond)? {
         Some(win) => windows::set_active_window(&conn, &screen, win)?,
-        None => return Err(exec_program(prog, prog_args)),
+        None => exec_program(prog, prog_args),
     }
+
     conn.flush().map_err(Into::into)
 }
 
